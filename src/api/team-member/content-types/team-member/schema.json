@@ -37,6 +37,12 @@
     "order": {
       "type": "integer",
       "default": 100
+    },
+    "team_pages": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::team-page.team-page",
+      "mappedBy": "team_members"
     }
   }
 }

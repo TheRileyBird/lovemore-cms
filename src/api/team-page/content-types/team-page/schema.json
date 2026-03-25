@@ -1,0 +1,22 @@
+{
+  "kind": "singleType",
+  "collectionName": "team_page",
+  "info": {
+    "singularName": "team-page",
+    "pluralName": "team-pages",
+    "displayName": "Team Page",
+    "description": "Manage the order of team members displayed on the team page"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "team_members": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::team-member.team-member",
+      "inversedBy": "team_pages"
+    }
+  }
+}
