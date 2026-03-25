@@ -21,6 +21,10 @@
       "enum": ["heated", "non-heated", "specialty"],
       "required": true
     },
+    "temperature": {
+      "type": "string",
+      "required": false
+    },
     "image": {
       "type": "media",
       "multiple": false,
