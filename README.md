@@ -1,61 +1,49 @@
-# 🚀 Getting started with Strapi
+# Love More CMS (Strapi)
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+Backend CMS for the Love More Yoga website managing team members, classes, and retreats.
 
-### `develop`
+## 🚀 Local Development
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
-
-```
+```bash
+npm install
 npm run develop
-# or
-yarn develop
 ```
 
-### `start`
+Visit http://localhost:1337/admin to access the CMS.
 
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
+## 📦 Deployment
 
-```
-npm run start
-# or
-yarn start
-```
+**See [RENDER-DEPLOYMENT.md](./RENDER-DEPLOYMENT.md) for complete Render deployment instructions.**
 
-### `build`
+This CMS deploys to **Render** (free tier) and uses **Netlify Neon database**.
 
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
+## 🔗 Architecture
 
 ```
-npm run build
-# or
-yarn build
+Frontend (Astro)  →  API  →  Strapi CMS  →  Netlify Neon DB
+   Netlify                    Render           Netlify
 ```
 
-## ⚙️ Deployment
+## 📝 Content Types
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+- **Team Members**: name, title, image, bio, order, active
+- **Classes**: name, type, image, description, order, active
+- **Retreats**: name, location, image, highlights, description, order, active
 
-```
-yarn strapi deploy
-```
+All content types have **drag-and-drop ordering** via the `order` field.
 
-## 📚 Learn more
+## ⚙️ API Permissions
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
+Enable public API access for frontend:
+1. Settings → Users & Permissions → Roles → Public
+2. Enable `find` and `findOne` for each content type
 
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
+## 🆓 Free Tier
 
-## ✨ Community
+Render free tier spins down after 15 minutes of inactivity. First access takes 30-50 seconds. This only affects admin access, not your live site.
 
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
+## 📚 Documentation
 
----
-
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+- [Strapi Docs](https://docs.strapi.io/)
+- [Deployment Guide](./RENDER-DEPLOYMENT.md)
+- [Strapi + Astro Guide](https://docs.astro.build/en/guides/cms/strapi/)

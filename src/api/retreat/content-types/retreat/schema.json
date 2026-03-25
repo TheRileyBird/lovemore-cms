@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "retreats",
+  "info": {
+    "singularName": "retreat",
+    "pluralName": "retreats",
+    "displayName": "Retreat",
+    "description": "Yoga retreats and wellness events"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "location": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "highlights": {
+      "type": "json",
+      "required": false
+    },
+    "description": {
+      "type": "richtext",
+      "required": false
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "order": {
+      "type": "integer",
+      "default": 100
+    }
+  }
+}
