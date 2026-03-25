@@ -34,10 +34,6 @@
       "type": "boolean",
       "default": true
     },
-    "order": {
-      "type": "integer",
-      "default": 100
-    },
     "team_pages": {
       "type": "relation",
       "relation": "manyToMany",

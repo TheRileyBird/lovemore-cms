@@ -522,7 +522,6 @@ export interface ApiTeamMemberTeamMember extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
-    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<100>;
     publishedAt: Schema.Attribute.DateTime;
     team_pages: Schema.Attribute.Relation<
       'manyToMany',
