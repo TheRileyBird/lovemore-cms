@@ -23,14 +23,9 @@
       "type": "string",
       "required": true
     },
-    "description": {
-      "type": "text",
+    "body": {
+      "type": "richtext",
       "required": true
-    },
-    "features": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.feature-item"
     },
     "type": {
       "type": "enumeration",

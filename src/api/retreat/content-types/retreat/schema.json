@@ -26,14 +26,9 @@
       "required": false,
       "allowedTypes": ["images"]
     },
-    "highlights": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.feature-item"
-    },
-    "description": {
+    "body": {
       "type": "richtext",
-      "required": false
+      "required": true
     },
     "active": {
       "type": "boolean",

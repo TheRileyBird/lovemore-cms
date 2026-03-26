@@ -485,11 +485,10 @@ export interface ApiRetreatRetreat extends Struct.CollectionTypeSchema {
   };
   attributes: {
     active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    body: Schema.Attribute.RichText & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.RichText;
-    highlights: Schema.Attribute.Component<'shared.feature-item', true>;
     image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -615,15 +614,14 @@ export interface ApiTrainingTraining extends Struct.CollectionTypeSchema {
   };
   attributes: {
     active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    body: Schema.Attribute.RichText & Schema.Attribute.Required;
     certification: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     ctaLink: Schema.Attribute.String & Schema.Attribute.DefaultTo<'/contact'>;
     ctaText: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Learn More'>;
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
     endDate: Schema.Attribute.Date;
-    features: Schema.Attribute.Component<'shared.feature-item', true>;
     image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
