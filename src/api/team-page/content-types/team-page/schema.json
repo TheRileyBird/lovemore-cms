@@ -14,9 +14,9 @@
   "attributes": {
     "team_members": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "oneToMany",
       "target": "api::team-member.team-member",
-      "inversedBy": "team_pages"
+      "mappedBy": "team_page"
     }
   }
 }

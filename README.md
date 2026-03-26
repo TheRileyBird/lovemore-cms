@@ -1,49 +1,640 @@
-# Love More CMS (Strapi)
+# Love More CMS (Strapi Backend)
 
-Backend CMS for the Love More Yoga website managing team members, classes, and retreats.
+Headless CMS backend for the Love More yoga studio website. Built with Strapi 5.40 and deployed on Render.com with PostgreSQL.
 
-## 🚀 Local Development
+## Overview
+
+This is the content management system that powers https://lovemoremcc.com. It provides a REST API for managing:
+- Team members and instructors
+- Yoga classes
+- Retreats
+- Content ordering via drag-and-drop
+
+## Live Services
+
+- **Admin Panel**: https://lovemore-cms.onrender.com/admin
+- **API Endpoint**: https://lovemore-cms.onrender.com/api
+- **Frontend (consumes this API)**: https://lovemoremcc.com
+- **Hosting**: Render.com (free tier web service + PostgreSQL)
+
+## Tech Stack
+
+- **CMS Framework**: Strapi 5.40.0
+- **Runtime**: Node.js 22+
+- **Database**: PostgreSQL (production) / SQLite (development)
+- **Languages**: TypeScript 5.x
+- **Admin UI**: React 18 + React Router 6
+
+## Architecture
+
+```
+┌────────────────────────────────────────────┐
+│            Strapi CMS Backend               │
+├────────────────────────────────────────────┤
+│                                             │
+│  Admin Panel (React)                        │
+│  ├─ Content Manager                         │
+│  ├─ Content-Type Builder                    │
+│  ├─ Media Library                           │
+│  └─ Settings                                │
+│                                             │
+│  REST API                                   │
+│  ├─ /api/team-page                          │
+│  ├─ /api/team-members                       │
+│  ├─ /api/classes                            │
+│  └─ /api/retreats                           │
+│                                             │
+│  Database (PostgreSQL)                      │
+│  └─ Managed by Render.com                   │
+│                                             │
+└────────────────────────────────────────────┘
+```
+
+## Project Structure
+
+```
+lovemore-cms/
+├── src/
+│   ├── api/                         # Content type APIs
+│   │   ├── class/
+│   │   │   ├── content-types/
+│   │   │   │   └── class/
+│   │   │   │       └── schema.json  # Class content type definition
+│   │   │   ├── controllers/         # Business logic
+│   │   │   ├── routes/              # API routes
+│   │   │   └── services/            # Data access layer
+│   │   ├── retreat/                 # Retreat content type
+│   │   ├── team-member/             # Team member content type
+│   │   └── team-page/               # Team page (single type with ordering)
+│   └── index.ts                     # Strapi entry point
+├── config/
+│   ├── admin.ts                     # Admin panel settings
+│   ├── api.ts                       # API configuration
+│   ├── database.ts                  # Database connection (multi-client)
+│   ├── middlewares.ts               # Request/response middleware
+│   ├── plugins.ts                   # Plugin configuration
+│   └── server.ts                    # Server settings (host, port)
+├── types/
+│   └── generated/
+│       └── contentTypes.d.ts        # Auto-generated TypeScript types
+├── .env                             # Environment variables (NOT committed)
+├── .gitignore
+├── render.yaml                      # Render.com deployment config
+├── package.json
+└── tsconfig.json
+```
+
+## Content Types
+
+### 1. Team Page (Single Type)
+**API**: `GET /api/team-page`
+
+Single type that stores the ordered list of team members.
+
+**Schema** (`src/api/team-page/content-types/team-page/schema.json`):
+```json
+{
+  "kind": "singleType",
+  "collectionName": "team_pages",
+  "attributes": {
+    "team_members": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::team-member.team-member"
+    }
+  }
+}
+```
+
+**Use Case**: Admins drag-and-drop team members to set display order on the website.
+
+### 2. Team Member (Collection Type)
+**API**: `GET /api/team-members`
+
+**Schema** (`src/api/team-member/content-types/team-member/schema.json`):
+```json
+{
+  "kind": "collectionType",
+  "collectionName": "team_members",
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "title": { "type": "string", "required": true },
+    "image": { "type": "media", "allowedTypes": ["images"] },
+    "bio": { "type": "richtext" },
+    "active": { "type": "boolean", "default": true },
+    "team_pages": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::team-page.team-page",
+      "mappedBy": "team_members"
+    }
+  }
+}
+```
+
+### 3. Class (Collection Type)
+**API**: `GET /api/classes`
+
+Yoga class types, descriptions, duration, difficulty.
+
+### 4. Retreat (Collection Type)
+**API**: `GET /api/retreats`
+
+Retreat events with dates, locations, descriptions.
+
+## Environment Variables
+
+### Development (`.env`)
+```bash
+# Server
+HOST=0.0.0.0
+PORT=1337
+
+# Secrets (auto-generated by Strapi)
+APP_KEYS=<keys>
+API_TOKEN_SALT=<salt>
+ADMIN_JWT_SECRET=<secret>
+TRANSFER_TOKEN_SALT=<salt>
+ENCRYPTION_KEY=<key>
+JWT_SECRET=<secret>
+
+# Database (SQLite for local dev)
+DATABASE_CLIENT=sqlite
+DATABASE_FILENAME=.tmp/data.db
+```
+
+### Production (Render.com Environment Variables)
+Set in Render.com Dashboard > Environment:
 
 ```bash
+NODE_VERSION=22
+NODE_ENV=production
+HOST=0.0.0.0
+PORT=10000
+
+# Secrets (same as dev .env)
+APP_KEYS=<keys>
+API_TOKEN_SALT=<salt>
+ADMIN_JWT_SECRET=<secret>
+TRANSFER_TOKEN_SALT=<salt>
+ENCRYPTION_KEY=<key>
+JWT_SECRET=<secret>
+
+# Database (PostgreSQL on Render.com)
+DATABASE_CLIENT=postgres
+DATABASE_URL=<render-postgres-internal-url>
+DATABASE_SSL=true
+DATABASE_SSL_REJECT_UNAUTHORIZED=false
+
+# Optional: Cloudinary (for persistent media storage)
+# CLOUDINARY_NAME=<your-cloud-name>
+# CLOUDINARY_KEY=<your-api-key>
+# CLOUDINARY_SECRET=<your-api-secret>
+```
+
+## Development
+
+### Prerequisites
+- Node.js 22.x or higher
+- npm 6.x or higher
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/TheRileyBird/lovemore-cms.git
+cd lovemore-cms
+
+# Install dependencies
 npm install
-npm run develop
+
+# Start development server
+npm run dev
 ```
 
-Visit http://localhost:1337/admin to access the CMS.
+The admin panel will be available at http://localhost:1337/admin
 
-## 📦 Deployment
+### First Run
 
-**See [RENDER-DEPLOYMENT.md](./RENDER-DEPLOYMENT.md) for complete Render deployment instructions.**
+On first startup, Strapi will prompt you to create an admin user:
+1. Go to http://localhost:1337/admin
+2. Fill in admin credentials
+3. Log in to the admin panel
 
-This CMS deploys to **Render** (free tier) and uses **Netlify Neon database**.
+### Database
 
-## 🔗 Architecture
+Development uses SQLite (file-based database):
+- Located at `.tmp/data.db`
+- Auto-created on first run
+- Easy to reset: delete the file and restart
 
+## Available Scripts
+
+```bash
+# Development with hot reload
+npm run dev
+
+# Build admin panel for production
+npm run build
+
+# Start production server (requires build first)
+npm run start
+
+# Open Strapi console (REPL)
+npm run console
+
+# Deploy to Strapi Cloud
+npm run deploy
+
+# Check for Strapi updates
+npm run upgrade:dry    # Dry run
+npm run upgrade        # Apply updates
 ```
-Frontend (Astro)  →  API  →  Strapi CMS  →  Netlify Neon DB
-   Netlify                    Render           Netlify
+
+## API Permissions
+
+Public (unauthenticated) access must be enabled for frontend to fetch data.
+
+**Configure**: Admin Panel > Settings > Users & Permissions > Roles > Public
+
+Enable these permissions:
+- **team-page**: find, findOne
+- **team-member**: find, findOne
+- **class**: find, findOne
+- **retreat**: find, findOne
+
+All other endpoints require authentication.
+
+## API Usage Examples
+
+### Fetch Team Page with Members (Ordered)
+```bash
+curl "https://lovemore-cms.onrender.com/api/team-page?populate[team_members][populate][0]=image"
 ```
 
-## 📝 Content Types
+Response:
+```json
+{
+  "data": {
+    "id": 1,
+    "team_members": [
+      {
+        "id": 1,
+        "name": "Jane Doe",
+        "title": "RYT-500",
+        "image": {
+          "url": "/uploads/jane_profile_123.jpg"
+        },
+        "bio": "Jane has been teaching yoga for 15 years..."
+      }
+    ]
+  }
+}
+```
 
-- **Team Members**: name, title, image, bio, order, active
-- **Classes**: name, type, image, description, order, active
-- **Retreats**: name, location, image, highlights, description, order, active
+### Fetch All Team Members
+```bash
+curl "https://lovemore-cms.onrender.com/api/team-members?populate=*"
+```
 
-All content types have **drag-and-drop ordering** via the `order` field.
+## Deployment (Render.com)
 
-## ⚙️ API Permissions
+### Automatic Deployment
 
-Enable public API access for frontend:
-1. Settings → Users & Permissions → Roles → Public
-2. Enable `find` and `findOne` for each content type
+Render.com automatically deploys when you push to the `master` branch:
 
-## 🆓 Free Tier
+```bash
+git add .
+git commit -m "Update content types"
+git push origin master
+```
 
-Render free tier spins down after 15 minutes of inactivity. First access takes 30-50 seconds. This only affects admin access, not your live site.
+Check deploy status: https://dashboard.render.com
 
-## 📚 Documentation
+### Manual Deployment
 
-- [Strapi Docs](https://docs.strapi.io/)
-- [Deployment Guide](./RENDER-DEPLOYMENT.md)
-- [Strapi + Astro Guide](https://docs.astro.build/en/guides/cms/strapi/)
+1. Log in to Render.com dashboard
+2. Navigate to your service (lovemore-cms)
+3. Click "Manual Deploy" > "Deploy latest commit"
+
+### Deployment Configuration
+
+**File**: `render.yaml`
+
+```yaml
+services:
+  - type: web
+    name: lovemore-strapi
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_CLIENT
+        value: postgres
+      - key: DATABASE_SSL
+        value: true
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 10000
+```
+
+Additional environment variables (secrets, database URL) are set in the Render.com dashboard.
+
+## Database Management
+
+### Development (SQLite)
+
+```bash
+# View database schema
+npm run strapi console
+> strapi.db.metadata
+
+# Reset database
+rm -rf .tmp/data.db
+npm run dev  # Recreates database
+```
+
+### Production (PostgreSQL)
+
+**Access via Render.com Dashboard:**
+1. Go to Render.com > Databases > lovemore-postgres
+2. Click "Connect" tab
+3. Use provided connection string
+
+**Access via CLI:**
+```bash
+# Get connection string from Render.com
+psql "<DATABASE_URL>"
+
+# List tables
+\dt
+
+# Query team members
+SELECT * FROM team_members;
+```
+
+### Backup Production Database
+
+```bash
+# From Render.com dashboard
+pg_dump "<DATABASE_URL>" > backup.sql
+
+# Restore
+psql "<DATABASE_URL>" < backup.sql
+```
+
+## Content Management
+
+### Adding a New Content Type
+
+1. Go to Admin Panel > Content-Type Builder
+2. Click "Create new collection type"
+3. Name it (e.g., "Workshop")
+4. Add fields (text, rich text, media, etc.)
+5. Save
+6. Strapi auto-generates:
+   - API endpoints (`/api/workshops`)
+   - Controllers, services, routes
+   - TypeScript types
+
+7. Set API permissions:
+   - Settings > Users & Permissions > Roles > Public
+   - Enable `find` and `findOne` for the new type
+
+### Editing Existing Content Types
+
+1. Admin Panel > Content-Type Builder
+2. Select content type
+3. Edit fields, add new fields, change validations
+4. Save (triggers server restart)
+
+### Managing Content
+
+1. Admin Panel > Content Manager
+2. Select content type
+3. Create/Edit/Delete entries
+4. Click "Publish" to make visible to API
+5. Draft entries are NOT returned by API
+
+## Media Library
+
+### Current Setup (Local File Storage)
+
+- Files uploaded via admin panel
+- Stored on Render.com disk at `/public/uploads`
+- **Warning**: Render.com free tier has ephemeral storage
+- Files are lost when service restarts or redeploys
+
+### Recommended: Cloudinary Integration
+
+To persist media across deployments:
+
+**1. Install Cloudinary plugin:**
+```bash
+npm install @strapi/provider-upload-cloudinary
+```
+
+**2. Configure `config/plugins.ts`:**
+```typescript
+import type { Core } from '@strapi/strapi';
+
+const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin => ({
+  upload: {
+    config: {
+      provider: 'cloudinary',
+      providerOptions: {
+        cloud_name: env('CLOUDINARY_NAME'),
+        api_key: env('CLOUDINARY_KEY'),
+        api_secret: env('CLOUDINARY_SECRET'),
+      },
+      actionOptions: {
+        upload: {},
+        delete: {},
+      },
+    },
+  },
+});
+
+export default config;
+```
+
+**3. Add Render.com environment variables:**
+- `CLOUDINARY_NAME`
+- `CLOUDINARY_KEY`
+- `CLOUDINARY_SECRET`
+
+**4. Commit and deploy:**
+```bash
+git add config/plugins.ts package.json package-lock.json
+git commit -m "Configure Cloudinary for media storage"
+git push origin master
+```
+
+All new uploads will be stored on Cloudinary. Existing uploads must be re-uploaded.
+
+## Troubleshooting
+
+### Admin Panel Not Loading
+
+**Symptom**: Blank page or error on `/admin`
+
+**Solutions**:
+1. Rebuild admin panel: `npm run build`
+2. Check console for errors
+3. Clear browser cache
+4. Verify `ADMIN_JWT_SECRET` is set
+
+### API Returns 403 Forbidden
+
+**Cause**: Permissions not set for public access
+
+**Solution**:
+1. Settings > Users & Permissions > Roles > Public
+2. Enable `find` and `findOne` for the content type
+3. Save
+
+### Database Connection Errors (Production)
+
+**Symptom**: "Connection refused" or "SSL error"
+
+**Solutions**:
+1. Verify `DATABASE_URL` is correct in Render.com
+2. Check PostgreSQL service status
+3. Ensure `DATABASE_SSL=true` and `DATABASE_SSL_REJECT_UNAUTHORIZED=false`
+
+### Build Failures on Render.com
+
+**Common causes**:
+- TypeScript errors: Check types in `types/generated/`
+- Missing dependencies: `npm install` locally first
+- Node version mismatch: Verify `NODE_VERSION=22`
+
+**Debug**:
+1. Check deploy logs in Render.com dashboard
+2. Run `npm run build` locally to reproduce
+3. Fix errors and push again
+
+### Images Returning 404
+
+**Cause**: Render.com free tier has ephemeral storage
+
+**Solutions**:
+1. **Quick fix**: Re-upload images in admin panel
+2. **Permanent fix**: Configure Cloudinary (see "Media Library" section)
+
+### Free Tier Spin Down
+
+Render free tier spins down after 15 minutes of inactivity. First access takes 30-50 seconds to wake up. This only affects admin panel access, not your live site (frontend fetches during build).
+
+## Webhooks (Future Enhancement)
+
+To trigger Netlify rebuilds when content is published:
+
+**1. Create Netlify build hook:**
+- Netlify Dashboard > Site Settings > Build & Deploy > Build Hooks
+- Click "Add build hook"
+- Copy URL
+
+**2. Add webhook in Strapi:**
+- Admin Panel > Settings > Webhooks
+- Click "Create webhook"
+- URL: `<netlify-build-hook-url>`
+- Events: Entry create, update, delete
+- Enabled: Yes
+- Save
+
+Now content updates automatically trigger frontend rebuilds.
+
+## Security
+
+### Admin Access
+
+- Admin panel requires authentication
+- Use strong password for admin account
+- Enable 2FA if available in future Strapi versions
+
+### API Tokens
+
+For programmatic API access:
+1. Settings > API Tokens
+2. Create token with specific permissions
+3. Use in requests: `Authorization: Bearer <token>`
+
+### CORS
+
+CORS is configured in `config/middlewares.ts` to allow:
+- `lovemoremcc.com` (production frontend)
+- `lovemoreyoga.netlify.app` (Netlify preview)
+- `localhost:4321` (local development)
+
+Update `middlewares.ts` to add more origins.
+
+## Monitoring
+
+### Render.com Metrics
+
+Dashboard shows:
+- CPU usage
+- Memory usage
+- Request count
+- Response times
+- Error rates
+
+Free tier has basic monitoring. Upgrade for advanced metrics.
+
+### Logs
+
+View real-time logs:
+1. Render.com Dashboard > Service
+2. Click "Logs" tab
+3. Filter by date/time or search text
+
+Download logs for debugging:
+```bash
+# Via Render CLI (if installed)
+render logs lovemore-strapi
+```
+
+## Upgrading Strapi
+
+```bash
+# Check for updates
+npm run upgrade:dry
+
+# Apply updates
+npm run upgrade
+
+# Test locally
+npm run dev
+
+# If successful, commit and deploy
+git add .
+git commit -m "Upgrade Strapi to latest"
+git push origin master
+```
+
+## Resources
+
+- **Strapi Documentation**: https://docs.strapi.io
+- **Render.com Docs**: https://render.com/docs
+- **Strapi Discord**: https://discord.strapi.io
+- **GitHub Issues**: https://github.com/strapi/strapi/issues
+- **Frontend Repository**: https://github.com/TheRileyBird/lovemore
+
+## Support
+
+For issues with this CMS:
+1. Check deploy logs on Render.com
+2. Check browser console for errors
+3. Review Strapi documentation
+4. Check GitHub issues
+
+## License
+
+Copyright © 2026 Love More. All rights reserved.

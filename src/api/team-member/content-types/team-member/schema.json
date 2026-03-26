@@ -34,11 +34,15 @@
       "type": "boolean",
       "default": true
     },
-    "team_pages": {
+    "team_page": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "api::team-page.team-page",
-      "mappedBy": "team_members"
+      "inversedBy": "team_members"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
     }
   }
 }
