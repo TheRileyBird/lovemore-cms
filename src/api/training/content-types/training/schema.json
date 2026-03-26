@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "trainings",
+  "info": {
+    "singularName": "training",
+    "pluralName": "trainings",
+    "displayName": "Training",
+    "description": "Teacher training programs and workshops"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": true
+    },
+    "content-type-builder": {
+      "visible": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "features": {
+      "type": "json",
+      "required": false
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["200-hour", "advanced", "workshop", "specialty"],
+      "default": "200-hour"
+    },
+    "certification": {
+      "type": "string",
+      "required": false
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "ctaText": {
+      "type": "string",
+      "default": "Learn More"
+    },
+    "ctaLink": {
+      "type": "string",
+      "default": "/contact"
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": ["primary", "secondary"],
+      "default": "primary"
+    },
+    "startDate": {
+      "type": "date",
+      "required": false
+    },
+    "endDate": {
+      "type": "date",
+      "required": false
+    },
+    "price": {
+      "type": "decimal",
+      "required": false
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
