@@ -441,6 +441,14 @@ export interface ApiClassClass extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    'content-manager': {
+      visible: true;
+    };
+    'content-type-builder': {
+      visible: true;
+    };
+  };
   attributes: {
     active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     createdAt: Schema.Attribute.DateTime;
@@ -454,8 +462,10 @@ export interface ApiClassClass extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String & Schema.Attribute.Required;
     order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<100>;
     publishedAt: Schema.Attribute.DateTime;
+    temperature: Schema.Attribute.String;
     type: Schema.Attribute.Enumeration<['heated', 'non-heated', 'specialty']> &
-      Schema.Attribute.Required;
+      Schema.Attribute.Required &
+      Schema.Attribute.Configurable;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -522,9 +532,10 @@ export interface ApiTeamMemberTeamMember extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
-    team_pages: Schema.Attribute.Relation<
-      'manyToMany',
+    team_page: Schema.Attribute.Relation<
+      'manyToOne',
       'api::team-page.team-page'
     >;
     title: Schema.Attribute.String & Schema.Attribute.Required;
@@ -545,6 +556,14 @@ export interface ApiTeamPageTeamPage extends Struct.SingleTypeSchema {
   options: {
     draftAndPublish: false;
   };
+  pluginOptions: {
+    'content-manager': {
+      visible: true;
+    };
+    'content-type-builder': {
+      visible: true;
+    };
+  };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -557,12 +576,75 @@ export interface ApiTeamPageTeamPage extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     team_members: Schema.Attribute.Relation<
-      'manyToMany',
+      'oneToMany',
       'api::team-member.team-member'
-    >;
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        'content-manager': {
+          edit: {
+            page: {
+              size: 50;
+            };
+          };
+        };
+      }>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTrainingTraining extends Struct.CollectionTypeSchema {
+  collectionName: 'trainings';
+  info: {
+    description: 'Teacher training programs and workshops';
+    displayName: 'Training';
+    pluralName: 'trainings';
+    singularName: 'training';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: true;
+    };
+    'content-type-builder': {
+      visible: true;
+    };
+  };
+  attributes: {
+    active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    certification: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    ctaLink: Schema.Attribute.String & Schema.Attribute.DefaultTo<'/contact'>;
+    ctaText: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Learn More'>;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    endDate: Schema.Attribute.Date;
+    features: Schema.Attribute.JSON;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::training.training'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    price: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    startDate: Schema.Attribute.Date;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    type: Schema.Attribute.Enumeration<
+      ['ryt200', 'advanced', 'workshop', 'specialty']
+    > &
+      Schema.Attribute.DefaultTo<'ryt200'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    variant: Schema.Attribute.Enumeration<['primary', 'secondary']> &
+      Schema.Attribute.DefaultTo<'primary'>;
   };
 }
 
@@ -1081,6 +1163,7 @@ declare module '@strapi/strapi' {
       'api::retreat.retreat': ApiRetreatRetreat;
       'api::team-member.team-member': ApiTeamMemberTeamMember;
       'api::team-page.team-page': ApiTeamPageTeamPage;
+      'api::training.training': ApiTrainingTraining;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

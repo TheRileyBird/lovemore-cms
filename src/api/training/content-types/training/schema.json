@@ -33,8 +33,8 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": ["200-hour", "advanced", "workshop", "specialty"],
-      "default": "200-hour"
+      "enum": ["ryt200", "advanced", "workshop", "specialty"],
+      "default": "ryt200"
     },
     "certification": {
       "type": "string",
