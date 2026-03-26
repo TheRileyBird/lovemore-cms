@@ -532,12 +532,7 @@ export interface ApiTeamMemberTeamMember extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
-    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
-    team_page: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::team-page.team-page'
-    >;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -575,19 +570,7 @@ export interface ApiTeamPageTeamPage extends Struct.SingleTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    team_members: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::team-member.team-member'
-    > &
-      Schema.Attribute.SetPluginOptions<{
-        'content-manager': {
-          edit: {
-            page: {
-              size: 50;
-            };
-          };
-        };
-      }>;
+    team_members: Schema.Attribute.Component<'team.team-member-link', true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

@@ -33,16 +33,6 @@
     "active": {
       "type": "boolean",
       "default": true
-    },
-    "team_page": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::team-page.team-page",
-      "inversedBy": "team_members"
-    },
-    "order": {
-      "type": "integer",
-      "default": 0
     }
   }
 }

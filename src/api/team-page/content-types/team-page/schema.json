@@ -20,19 +20,9 @@
   },
   "attributes": {
     "team_members": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::team-member.team-member",
-      "mappedBy": "team_page",
-      "pluginOptions": {
-        "content-manager": {
-          "edit": {
-            "page": {
-              "size": 50
-            }
-          }
-        }
-      }
+      "type": "component",
+      "repeatable": true,
+      "component": "team.team-member-link"
     }
   }
 }

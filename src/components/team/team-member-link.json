@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_team_team_member_links",
+  "info": {
+    "displayName": "Team Member Link",
+    "description": "Reference to a team member for ordering"
+  },
+  "options": {},
+  "attributes": {
+    "team_member": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team-member.team-member"
+    }
+  }
+}
