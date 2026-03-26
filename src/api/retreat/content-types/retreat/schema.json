@@ -27,8 +27,9 @@
       "allowedTypes": ["images"]
     },
     "highlights": {
-      "type": "json",
-      "required": false
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.feature-item"
     },
     "description": {
       "type": "richtext",

@@ -28,8 +28,9 @@
       "required": true
     },
     "features": {
-      "type": "json",
-      "required": false
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.feature-item"
     },
     "type": {
       "type": "enumeration",

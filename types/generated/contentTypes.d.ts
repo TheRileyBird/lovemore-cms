@@ -489,7 +489,7 @@ export interface ApiRetreatRetreat extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.RichText;
-    highlights: Schema.Attribute.JSON;
+    highlights: Schema.Attribute.Component<'shared.feature-item', true>;
     image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -623,7 +623,7 @@ export interface ApiTrainingTraining extends Struct.CollectionTypeSchema {
     ctaText: Schema.Attribute.String & Schema.Attribute.DefaultTo<'Learn More'>;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     endDate: Schema.Attribute.Date;
-    features: Schema.Attribute.JSON;
+    features: Schema.Attribute.Component<'shared.feature-item', true>;
     image: Schema.Attribute.Media<'images'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
