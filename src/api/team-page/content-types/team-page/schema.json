@@ -10,13 +10,29 @@
   "options": {
     "draftAndPublish": false
   },
-  "pluginOptions": {},
+  "pluginOptions": {
+    "content-manager": {
+      "visible": true
+    },
+    "content-type-builder": {
+      "visible": true
+    }
+  },
   "attributes": {
     "team_members": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::team-member.team-member",
-      "mappedBy": "team_page"
+      "mappedBy": "team_page",
+      "pluginOptions": {
+        "content-manager": {
+          "edit": {
+            "page": {
+              "size": 50
+            }
+          }
+        }
+      }
     }
   }
 }
