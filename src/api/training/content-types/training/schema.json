@@ -72,9 +72,8 @@
       "type": "decimal",
       "required": false
     },
-    "order": {
-      "type": "integer",
-      "default": 0
+    "sortOrder": {
+      "type": "integer"
     },
     "active": {
       "type": "boolean",

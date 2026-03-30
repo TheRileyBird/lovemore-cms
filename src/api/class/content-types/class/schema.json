@@ -48,9 +48,8 @@
       "type": "boolean",
       "default": true
     },
-    "order": {
-      "type": "integer",
-      "default": 100
+    "sortOrder": {
+      "type": "integer"
     }
   }
 }

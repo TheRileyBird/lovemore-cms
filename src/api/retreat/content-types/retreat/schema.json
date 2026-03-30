@@ -10,7 +10,14 @@
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
+  "pluginOptions": {
+    "content-manager": {
+      "visible": true
+    },
+    "content-type-builder": {
+      "visible": true
+    }
+  },
   "attributes": {
     "name": {
       "type": "string",
@@ -39,9 +46,8 @@
       "type": "boolean",
       "default": true
     },
-    "order": {
-      "type": "integer",
-      "default": 100
+    "sortOrder": {
+      "type": "integer"
     }
   }
 }
