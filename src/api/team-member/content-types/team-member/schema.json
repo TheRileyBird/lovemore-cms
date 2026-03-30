@@ -43,6 +43,12 @@
     },
     "sortOrder": {
       "type": "integer"
+    },
+    "socialLink": {
+      "type": "component",
+      "repeatable": false,
+      "component": "social.social-link",
+      "required": false
     }
   }
 }

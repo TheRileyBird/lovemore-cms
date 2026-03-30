@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_social_social_links",
+  "info": {
+    "displayName": "Social Link",
+    "description": "A social media or website link with custom label"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
