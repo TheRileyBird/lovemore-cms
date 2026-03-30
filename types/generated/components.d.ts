@@ -17,6 +17,9 @@ export interface TeamTeamMemberLink extends Struct.ComponentSchema {
     description: 'Reference to a team member for ordering';
     displayName: 'Team Member Link';
   };
+  options: {
+    mainField: 'team_member';
+  };
   attributes: {
     team_member: Schema.Attribute.Relation<
       'oneToOne',

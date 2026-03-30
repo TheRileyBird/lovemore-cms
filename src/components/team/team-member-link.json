@@ -4,7 +4,9 @@
     "displayName": "Team Member Link",
     "description": "Reference to a team member for ordering"
   },
-  "options": {},
+  "options": {
+    "mainField": "team_member"
+  },
   "attributes": {
     "team_member": {
       "type": "relation",
