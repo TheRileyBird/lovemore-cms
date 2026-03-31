@@ -34,7 +34,8 @@
       "allowedTypes": ["images"]
     },
     "bio": {
-      "type": "richtext",
+      "type": "customField",
+      "customField": "plugin::tinymce.tinymce",
       "required": false
     },
     "active": {

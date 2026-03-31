@@ -19,6 +19,20 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
   'sortable-entries': {
     enabled: true,
   },
+  tinymce: {
+    enabled: true,
+    config: {
+      editor: {
+        outputFormat: 'html',
+        editorConfig: {
+          height: 500,
+          menubar: false,
+          plugins: 'lists link image table code help wordcount',
+          toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+        },
+      },
+    },
+  },
 });
 
 export default config;
