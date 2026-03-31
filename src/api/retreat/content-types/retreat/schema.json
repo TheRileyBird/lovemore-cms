@@ -48,6 +48,14 @@
     },
     "sortOrder": {
       "type": "integer"
+    },
+    "startDate": {
+      "type": "date",
+      "required": false
+    },
+    "endDate": {
+      "type": "date",
+      "required": false
     }
   }
 }
