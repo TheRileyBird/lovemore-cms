@@ -60,6 +60,20 @@
     "endDate": {
       "type": "date",
       "required": false
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "ctaButtonLabel": {
+      "type": "string",
+      "required": false
+    },
+    "ctaButtonUrl": {
+      "type": "string",
+      "required": false
     }
   }
 }
