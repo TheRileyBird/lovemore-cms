@@ -42,6 +42,12 @@
       "required": false,
       "allowedTypes": ["images"]
     },
+    "heroImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
     "description": {
       "type": "richtext",
       "required": false
