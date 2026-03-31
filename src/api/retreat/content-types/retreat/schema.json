@@ -23,6 +23,10 @@
       "type": "string",
       "required": true
     },
+    "subtitle": {
+      "type": "string",
+      "required": false
+    },
     "slug": {
       "type": "uid",
       "targetField": "name",
