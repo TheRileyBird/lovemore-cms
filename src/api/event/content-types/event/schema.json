@@ -23,6 +23,15 @@
       "type": "string",
       "required": true
     },
+    "subtitle": {
+      "type": "string",
+      "required": false
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
     "date": {
       "type": "date",
       "required": true
@@ -43,6 +52,20 @@
     },
     "sortOrder": {
       "type": "integer"
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "ctaButtonLabel": {
+      "type": "string",
+      "required": false
+    },
+    "ctaButtonUrl": {
+      "type": "string",
+      "required": false
     }
   }
 }

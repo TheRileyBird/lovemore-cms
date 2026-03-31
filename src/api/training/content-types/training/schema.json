@@ -23,6 +23,10 @@
       "type": "string",
       "required": true
     },
+    "subtitle": {
+      "type": "string",
+      "required": false
+    },
     "slug": {
       "type": "uid",
       "targetField": "title",
@@ -78,6 +82,12 @@
     "active": {
       "type": "boolean",
       "default": true
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
     }
   }
 }
