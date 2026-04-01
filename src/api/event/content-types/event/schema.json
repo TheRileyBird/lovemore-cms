@@ -23,26 +23,18 @@
       "type": "string",
       "required": true
     },
-    "subtitle": {
-      "type": "string",
-      "required": false
-    },
-    "slug": {
-      "type": "uid",
-      "targetField": "name",
-      "required": true
+    "type": {
+      "type": "enumeration",
+      "enum": ["workshop", "special-event", "community-gathering"],
+      "required": true,
+      "configurable": true,
+      "searchable": true
     },
     "date": {
       "type": "date",
       "required": true
     },
-    "flyerImage": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": ["images"]
-    },
-    "headerImage": {
+    "image": {
       "type": "media",
       "multiple": false,
       "required": false,
@@ -58,20 +50,6 @@
     },
     "sortOrder": {
       "type": "integer"
-    },
-    "gallery": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
-      "allowedTypes": ["images"]
-    },
-    "ctaButtonLabel": {
-      "type": "string",
-      "required": false
-    },
-    "ctaButtonUrl": {
-      "type": "string",
-      "required": false
     }
   }
 }
