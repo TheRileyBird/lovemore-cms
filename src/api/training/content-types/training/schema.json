@@ -45,13 +45,13 @@
       "type": "string",
       "required": false
     },
-    "image": {
+    "flyerImage": {
       "type": "media",
       "multiple": false,
       "required": false,
       "allowedTypes": ["images"]
     },
-    "heroImage": {
+    "headerImage": {
       "type": "media",
       "multiple": false,
       "required": false,
