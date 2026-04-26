@@ -1,6 +1,6 @@
 # Love More CMS (Strapi Backend)
 
-Headless CMS backend for the Love More yoga studio website. Built with Strapi 5.40 and deployed on Render.com with PostgreSQL.
+Headless CMS backend for the Love More yoga studio website. Built with Strapi 5.43 and deployed on Render.com with PostgreSQL.
 
 ## Overview
 
@@ -19,7 +19,7 @@ This is the content management system that powers https://lovemoremcc.com. It pr
 
 ## Tech Stack
 
-- **CMS Framework**: Strapi 5.40.0
+- **CMS Framework**: Strapi 5.43.0
 - **Runtime**: Node.js 22+
 - **Database**: PostgreSQL (production) / SQLite (development)
 - **Languages**: TypeScript 5.x
