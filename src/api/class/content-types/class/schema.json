@@ -25,7 +25,7 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": ["heated", "non-heated", "specialty"],
+      "enum": ["heated", "non-heated", "healing-room"],
       "required": true,
       "configurable": true,
       "searchable": true

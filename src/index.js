@@ -73,7 +73,7 @@ module.exports = {
       },
       {
         name: "Yoga Sculpt (Warm)",
-        type: "specialty",
+        type: "healing-room",
         image: null,
         order: 5,
         active: true,
